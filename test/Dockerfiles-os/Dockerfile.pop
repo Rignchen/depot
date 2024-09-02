@@ -1,0 +1,7 @@
+# bash says that the binary is not found on alpine
+FROM hugojosefson/popos
+
+WORKDIR /app
+COPY ./target/release/depot ./
+ENTRYPOINT ["./depot"]
+
