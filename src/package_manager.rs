@@ -44,7 +44,10 @@ impl From<&OperatingSystem> for PackageManager {
 /// ```
 impl std::fmt::Display for PackageManager {
     fn fmt(&self, f: &mut std::fmt::Formatter) -> std::fmt::Result {
-        write!(f, "{}", match self {
+        write!(
+            f,
+            "{}",
+            match self {
                 PackageManager::AptGet => "apt-get".to_string(),
                 _ => format!("{:?}", self).to_lowercase(),
             }
@@ -84,13 +87,27 @@ impl PackageManager {
     /// Install a package using the package manager.
     pub fn install(&self, instruction: &Install) -> DepotResult<()> {
         let result = match self {
-            PackageManager::Pacman => run_command!(self, "-S", &instruction.package, "--noconfirm", instruction),
-            PackageManager::Yay => run_command!(self, "-S", &instruction.package, "--noconfirm", instruction),
-            PackageManager::Apk => run_command!(self, "add", &instruction.package, "--no-cache", instruction),
-            PackageManager::AptGet => run_command!(self, "install", &instruction.package, "-y", instruction),
-            PackageManager::Apt => run_command!(self, "install", &instruction.package, "-y", instruction),
-            PackageManager::Pkg => run_command!(self, "install", &instruction.package, "-y", instruction),
-            PackageManager::Dnf => run_command!(self, "install", &instruction.package, "-y", instruction),
+            PackageManager::Pacman => {
+                run_command!(self, "-S", &instruction.package, "--noconfirm", instruction)
+            }
+            PackageManager::Yay => {
+                run_command!(self, "-S", &instruction.package, "--noconfirm", instruction)
+            }
+            PackageManager::Apk => {
+                run_command!(self, "add", &instruction.package, "--no-cache", instruction)
+            }
+            PackageManager::AptGet => {
+                run_command!(self, "install", &instruction.package, "-y", instruction)
+            }
+            PackageManager::Apt => {
+                run_command!(self, "install", &instruction.package, "-y", instruction)
+            }
+            PackageManager::Pkg => {
+                run_command!(self, "install", &instruction.package, "-y", instruction)
+            }
+            PackageManager::Dnf => {
+                run_command!(self, "install", &instruction.package, "-y", instruction)
+            }
         }
         .status();
         if result.is_ok() && result.unwrap().success() {
@@ -106,13 +123,27 @@ impl PackageManager {
     /// Remove a package using the package manager.
     pub fn remove(&self, instruction: &Remove) -> DepotResult<()> {
         let result = match self {
-            PackageManager::Pacman => run_command!(self, "-R", &instruction.package, "--noconfirm", instruction),
-            PackageManager::Yay => run_command!(self, "-R", &instruction.package, "--noconfirm", instruction),
-            PackageManager::Apk => run_command!(self, "del", &instruction.package, "--no-cache", instruction),
-            PackageManager::AptGet => run_command!(self, "remove", &instruction.package, "-y", instruction),
-            PackageManager::Apt => run_command!(self, "remove", &instruction.package, "-y", instruction),
-            PackageManager::Pkg => run_command!(self, "remove", &instruction.package, "-y", instruction),
-            PackageManager::Dnf => run_command!(self, "remove", &instruction.package, "-y", instruction),
+            PackageManager::Pacman => {
+                run_command!(self, "-R", &instruction.package, "--noconfirm", instruction)
+            }
+            PackageManager::Yay => {
+                run_command!(self, "-R", &instruction.package, "--noconfirm", instruction)
+            }
+            PackageManager::Apk => {
+                run_command!(self, "del", &instruction.package, "--no-cache", instruction)
+            }
+            PackageManager::AptGet => {
+                run_command!(self, "remove", &instruction.package, "-y", instruction)
+            }
+            PackageManager::Apt => {
+                run_command!(self, "remove", &instruction.package, "-y", instruction)
+            }
+            PackageManager::Pkg => {
+                run_command!(self, "remove", &instruction.package, "-y", instruction)
+            }
+            PackageManager::Dnf => {
+                run_command!(self, "remove", &instruction.package, "-y", instruction)
+            }
         }
         .status();
         if result.is_ok() && result.unwrap().success() {
@@ -158,7 +189,9 @@ impl PackageManager {
             PackageManager::Pacman => run_command!(self, "-Syu", "-S", &instruction.package),
             PackageManager::Yay => run_command!(self, "-Syu", "-S", &instruction.package),
             PackageManager::Apk => run_command!(self, "upgrade", "upgrade", &instruction.package),
-            PackageManager::AptGet => run_command!(self, "upgrade", "upgrade", &instruction.package),
+            PackageManager::AptGet => {
+                run_command!(self, "upgrade", "upgrade", &instruction.package)
+            }
             PackageManager::Apt => run_command!(self, "upgrade", "upgrade", &instruction.package),
             PackageManager::Pkg => run_command!(self, "upgrade", "upgrade", &instruction.package),
             PackageManager::Dnf => run_command!(self, "upgrade", "upgrade", &instruction.package),
@@ -186,9 +219,7 @@ impl PackageManager {
     /// PackageManager::Dnf.ensure_pm_installed().unwrap();
     /// ```
     pub fn ensure_pm_installed(&self) -> DepotResult<Self> {
-        let temp = Command::new("which")
-            .arg(format!("{}", self))
-            .output();
+        let temp = Command::new("which").arg(format!("{}", self)).output();
         if temp.is_ok() && temp.unwrap().status.success() {
             Ok(self.clone())
         } else {
