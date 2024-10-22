@@ -31,6 +31,27 @@ impl From<&OperatingSystem> for PackageManager {
     }
 }
 
+/// Implement the Display trait for the PackageManager enum.
+/// ```
+/// use depot::package_manager::PackageManager;
+/// assert_eq!(format!("{}", PackageManager::AptGet), "apt-get");
+/// assert_eq!(format!("{}", PackageManager::Apt), "apt");
+/// assert_eq!(format!("{}", PackageManager::Pacman), "pacman");
+/// assert_eq!(format!("{}", PackageManager::Yay), "yay");
+/// assert_eq!(format!("{}", PackageManager::Apk), "apk");
+/// assert_eq!(format!("{}", PackageManager::Pkg), "pkg");
+/// assert_eq!(format!("{}", PackageManager::Dnf), "dnf");
+/// ```
+impl std::fmt::Display for PackageManager {
+    fn fmt(&self, f: &mut std::fmt::Formatter) -> std::fmt::Result {
+        write!(f, "{}", match self {
+                PackageManager::AptGet => "apt-get".to_string(),
+                _ => format!("{:?}", self).to_lowercase(),
+            }
+        )
+    }
+}
+
 /// Run a command with the package manager.
 /// This macro is used to avoid code duplication between all the package manager and their methods.
 macro_rules! run_command {
@@ -223,10 +244,7 @@ impl PackageManager {
     /// ```
     pub fn ensure_pm_installed(&self) -> DepotResult<Self> {
         let temp = Command::new("which")
-            .arg(match self {
-                PackageManager::AptGet => "apt-get".to_string(),
-                _ => format!("{:?}", self).to_lowercase(),
-            })
+            .arg(format!("{}", self))
             .output();
         if temp.is_ok() && temp.unwrap().status.success() {
             Ok(self.clone())
