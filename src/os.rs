@@ -9,6 +9,7 @@ pub enum OperatingSystem {
     Debian,
     Ubuntu,
     Fedora,
+    PoP,
 }
 
 impl OperatingSystem {
@@ -31,6 +32,7 @@ impl OperatingSystem {
                     "ID=debian" => Ok(OperatingSystem::Debian),
                     "ID=ubuntu" => Ok(OperatingSystem::Ubuntu),
                     "ID=fedora" => Ok(OperatingSystem::Fedora),
+                    "ID=pop" => Ok(OperatingSystem::PoP),
                     _ => Err(DepotError::UnknownOperatingSystem),
                 }
             }
