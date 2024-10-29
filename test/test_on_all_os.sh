@@ -16,10 +16,13 @@ os_names=$(echo "$dockerfiles" | sed -n 's/.*Dockerfile\.\(.*\)/\1/p')
 # build the rust project
 cargo build --release
 
+# make the folder to hold log files
+mkdir -p "$script_dir/logs"
+
 # build all Docker images in parallel
 PIDS=()
 for os_name in $os_names; do
-    docker build -t "test_on_all_os:$os_name" -f "$script_dir/Dockerfiles-os/Dockerfile.$os_name" . &
+    docker build -t "test_on_all_os:$os_name" -f "$script_dir/Dockerfiles-os/Dockerfile.$os_name" . > "$script_dir/logs/$os_name.log" 2>&1 &
     PIDS+=($!)
     echo "Building Docker image for: $os_name"
 done
