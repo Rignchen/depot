@@ -16,17 +16,9 @@ os_names=$(echo "$dockerfiles" | sed -n 's/.*Dockerfile\.\(.*\)/\1/p')
 # build the rust project
 cargo build --release
 
-# build all Docker images in parallel
-PIDS=()
+# build all Docker images
 for os_name in $os_names; do
-    docker build -t "test_on_all_os:$os_name" -f "$script_dir/Dockerfiles-os/Dockerfile.$os_name" . &
-    PIDS+=($!)
-    echo "Building Docker image for: $os_name"
-done
-
-# Wait for all threads to finish
-for pid in "${PIDS[@]}"; do
-    wait $pid
+    docker build -t "test_on_all_os:$os_name" -f "$script_dir/Dockerfiles-os/Dockerfile.$os_name" .
 done
 
 echo ""
