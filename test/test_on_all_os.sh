@@ -13,9 +13,6 @@ dockerfiles=$(find "$script_dir/Dockerfiles-os" -type f -name "Dockerfile*")
 # get the end of each Dockerfile name (e.g., Dockerfile.ubuntu -> ubuntu)
 os_names=$(echo "$dockerfiles" | sed -n 's/.*Dockerfile\.\(.*\)/\1/p')
 
-# build the rust project
-cargo build --release
-
 # make the folder to hold log files
 mkdir -p "$script_dir/logs"
 

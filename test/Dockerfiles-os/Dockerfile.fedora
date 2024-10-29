@@ -1,6 +1,12 @@
 FROM fedora
 
 WORKDIR /app
-COPY ./target/release/depot ./
+
+RUN dnf install -y gcc cargo
+COPY . .
+
+RUN cargo build --release
+RUN mv target/release/depot .
+
 ENTRYPOINT ["./depot"]
 

@@ -1,7 +1,14 @@
 FROM archlinux/archlinux
 
 WORKDIR /app
-COPY ./target/release/depot ./
 RUN pacman -Sy --noconfirm
+
+RUN pacman -S --noconfirm gcc rustup
+RUN rustup default stable
+COPY . .
+
+RUN cargo build --release
+RUN mv target/release/depot .
+
 ENTRYPOINT ["./depot"]
 
