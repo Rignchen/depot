@@ -27,6 +27,7 @@ impl From<&OperatingSystem> for PackageManager {
             OperatingSystem::Debian => PackageManager::AptGet,
             OperatingSystem::Ubuntu => PackageManager::AptGet,
             OperatingSystem::Fedora => PackageManager::Dnf,
+            OperatingSystem::PoP => PackageManager::Apt,
         }
     }
 }
