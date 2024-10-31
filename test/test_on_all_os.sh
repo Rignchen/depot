@@ -33,12 +33,13 @@ done
 echo ""
 
 # run all docker containers and say the OS name
+VERSION=$( jq -r '.["."]' $script_dir/../.release-please-manifest.json )
 for os_name in $os_names; do
     echo ""
     echo "===== test from: $os_name ====="
     docker run --name "test_on_all_os_$os_name" -i "test_on_all_os:$os_name" $@
-    docker cp "test_on_all_os_$os_name:/app/depot" "$script_dir/compiled/depot-$os_name"
-	echo "$os_name: $( sha256sum "$script_dir/compiled/depot-$os_name" | cut -d ' ' -f 1 )" >> "$script_dir/compiled/sha256sums.txt"
+    docker cp "test_on_all_os_$os_name:/app/depot" "$script_dir/compiled/depot-$os_name-$VERSION"
+    echo "$os_name: $( sha256sum "$script_dir/compiled/depot-$os_name-$VERSION" | cut -d ' ' -f 1 )" >> "$script_dir/compiled/sha256sums.txt"
     docker rm -f "test_on_all_os_$os_name"
 done
 
