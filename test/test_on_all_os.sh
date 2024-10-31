@@ -13,8 +13,8 @@ dockerfiles=$(find "$script_dir/Dockerfiles-os" -type f -name "Dockerfile*")
 # get the end of each Dockerfile name (e.g., Dockerfile.ubuntu -> ubuntu)
 os_names=$(echo "$dockerfiles" | sed -n 's/.*Dockerfile\.\(.*\)/\1/p')
 
-# make the folder to hold log files
-mkdir -p "$script_dir/logs"
+# make the folder to hold log files & compiled software
+mkdir -p "$script_dir/logs" "$script_dir/compiled"
 
 # build all Docker images in parallel
 PIDS=()
@@ -35,7 +35,9 @@ echo ""
 for os_name in $os_names; do
     echo ""
     echo "===== test from: $os_name ====="
-    docker run -i --rm "test_on_all_os:$os_name" $@
+    docker run --name "test_on_all_os_$os_name" -i "test_on_all_os:$os_name" $@
+    docker cp "test_on_all_os_$os_name:/app/depot" "$script_dir/compiled/depot-$os_name"
+    docker rm -f "test_on_all_os_$os_name"
 done
 
 echo ""
