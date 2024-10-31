@@ -1,7 +1,12 @@
 # bash says that the binary is not found on alpine
-FROM alpine
+FROM rust:alpine
 
 WORKDIR /app
-COPY ./target/release/depot ./
+COPY . .
+
+RUN apk add --no-cache musl-dev
+RUN cargo build --release
+RUN mv target/release/depot .
+
 ENTRYPOINT ["./depot"]
 

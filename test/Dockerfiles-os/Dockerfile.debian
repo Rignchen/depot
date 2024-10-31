@@ -1,7 +1,15 @@
 FROM debian
 
 WORKDIR /app
-COPY ./target/release/depot ./
 RUN apt-get update
+
+RUN apt-get install -y gcc curl
+RUN curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y
+ENV PATH="/root/.cargo/bin:${PATH}"
+COPY . .
+
+RUN cargo build --release
+RUN mv target/release/depot .
+
 ENTRYPOINT ["./depot"]
 

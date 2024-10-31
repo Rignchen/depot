@@ -35,27 +35,27 @@ pub fn unwrap_depot_error<T>(result: DepotResult<T>) -> T {
                             .to_string(),
                     DepotError::PackageManagerError(pme, pm) => match pme {
                         PackageManagerError::InstallFailed(package) => format!(
-                            "Failed to install package: {} using {:?}",
+                            "Failed to install package: {} using {}",
                             package.join(", "),
                             pm
                         ),
                         PackageManagerError::RemoveFailed(package) => format!(
-                            "Failed to remove package: {} using {:?}",
+                            "Failed to remove package: {} using {}",
                             package.join(", "),
                             pm
                         ),
                         PackageManagerError::SearchFailed(package) =>
-                            format!("Failed to search for package: {} using {:?}", package, pm),
+                            format!("Failed to search for package: {} using {}", package, pm),
                         PackageManagerError::UpdateFailed(package) => match package {
                             Some(package) => format!(
-                                "Failed to update package: {} using {:?}",
+                                "Failed to update package: {} using {}",
                                 package.join(", "),
                                 pm
                             ),
                             None => "Failed to update all packages.".to_string(),
                         },
                         PackageManagerError::PackageManagerNotInstalled =>
-                            format!("{:?} is not installed on your system.", pm),
+                            format!("{} is not installed on your system.", pm),
                     },
                 }
             );
