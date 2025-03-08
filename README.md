@@ -1,8 +1,6 @@
-# THIS PROJECT IS STILL IN EARLY DEVELOPMENT
-THE README IS HERE TO GIVE AN IDEA OF WHAT THE PROJECT WILL BE.\
-KEEP IN MIND THAT SOME FEATURES MAY NOT BE IMPLEMENTED YET.\
-BECAUSE OF THAT, SOME FEATURES MAY DRASTICALLY CHANGE OR BE REMOVED BEFORE THE FINAL RELEASE.\
-IF YOU WANT TO CONTRIBUTE TO THE PROJECT, YOU CAN OPEN A PULL REQUEST OR AN ISSUE.
+# This project has been moved to [gitlab](https://gitlab.com/Rignchen/depot/)
+
+---
 
 # Depot
 Every Linux user has encountered the problem of learning how a new project manager works when changing operating system.\
